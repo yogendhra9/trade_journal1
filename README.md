@@ -5,207 +5,234 @@
 <h1 align="center">Hindsight</h1>
 
 <p align="center">
-  <strong>AI-Powered Trade Retrospection That Actually Makes You Better</strong>
-</p>
-
-<p align="center">
-  Your personal trading analyst that explains what happened, why it happened, and how to improve — without prediction BS.
+  <strong>AI-Powered Trade Retrospection for Indian Stock Market Traders</strong>
 </p>
 
 <p align="center">
   <img src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white" alt="React 19" />
   <img src="https://img.shields.io/badge/Express-5-000000?logo=express&logoColor=white" alt="Express 5" />
-  <img src="https://img.shields.io/badge/MongoDB-Mongoose-47A248?logo=mongodb&logoColor=white" alt="MongoDB" />
+  <img src="https://img.shields.io/badge/MongoDB-Mongoose_9-47A248?logo=mongodb&logoColor=white" alt="MongoDB" />
+  <img src="https://img.shields.io/badge/Ollama-Local_LLM-white?logo=ollama&logoColor=black" alt="Ollama" />
   <img src="https://img.shields.io/badge/Vite-Rolldown-646CFF?logo=vite&logoColor=white" alt="Vite" />
-  <img src="https://img.shields.io/badge/Docker-Ready-2496ED?logo=docker&logoColor=white" alt="Docker" />
 </p>
 
 ---
 
-## ✨ What is Hindsight?
+## What is Hindsight?
 
-Hindsight is an **AI-powered trade journal** designed for Indian stock market traders. It auto-syncs trades from your broker, detects market patterns using ML, and provides honest AI-driven retrospection — no predictions, no signals, just learning.
+Hindsight is a trade journal that auto-syncs trades from Indian brokers (Dhan, Angel One), detects market patterns using a K-Means ML pipeline, and lets you chat with a **local LLM** (via Ollama) about your trading history.
 
-### 🎯 Key Philosophy
+All AI processing runs **locally on your machine** — no trade data is sent to any external API. This was a deliberate choice because trading data is sensitive and personal.
 
 > **We don't predict. We explain.**
-> 
-> Most trading tools promise to beat the market. We promise you'll understand your trading better than ever before.
+> No signals, no recommendations. Just retrospective analysis of what happened and why.
 
 ---
 
-## 🚀 Features
+## What's Built
 
-### 📊 Dashboard & Analytics
-- Real-time P&L tracking with interactive charts
-- Win rate, average profit/loss, and streak analysis
-- Broker-wise performance split
+### Broker Integration
+- **Dhan** — OAuth2 flow for authentication, auto-sync of trade history via API
+- **Angel One** — API key + TOTP-based auth, auto-sync of trade history
+- **Scheduled Sync** — Cron job runs daily at 6:00 PM IST to pull new trades from all connected brokers
+- **CSV Upload** — Manual upload with auto-detection of broker format (Dhan or Angel One)
+- **Deduplication** — Compound index on `(userId, brokerOrderId)` prevents duplicate trades on re-sync
+
+### Trade Management
+- Trade model supports BUY/SELL with entry/exit tracking
+- Automatic P&L calculation when matching BUY/SELL pairs via a position tracking service
+- Open position tracking with average buy price
+- Support for product types: Intraday, Delivery, CNC, Margin, MTF, CO, BO
+- User reflection fields on each trade (entry reason, confidence, post-trade notes)
+
+### ML Pattern Detection
+- Python pipeline trained on ~4M rows of historical stock data (`stocks_df.csv`)
+- K-Means clustering (k=9) identifies 9 market behavior patterns:
+  - P1: Range-Bound | P2: Volatility Expansion | P3: Trending Up
+  - P4: Trending Down | P5: Whipsaw | P6: Compression
+  - P7: Blow-Off Top | P8: Mean Reversion | P9: Illiquid
+- Feature engineering: volatility, trend strength, drawdown, volume metrics
+- Artifacts (centroids, scaler, pattern definitions) are loaded into MongoDB on server start
+- Each synced trade gets a pattern assigned by matching against cluster centroids
+
+### AI Chat (Local LLM via Ollama)
+- Uses **Ollama** running locally (default model: `qwen2.5:3b`)
+- Tool-calling loop: Ollama decides which tools to call, backend executes them against MongoDB, results fed back for final response
+- 8 tools available to the LLM:
+  - `get_all_patterns` — list all 9 market patterns
+  - `get_pattern_details` — details for a specific pattern
+  - `get_user_trades` — fetch trades with optional symbol/status filter
+  - `get_trade_context` — full context for a specific trade including its pattern
+  - `get_user_pattern_stats` — win rate and P&L grouped by pattern
+  - `get_open_positions` — current holdings
+  - `get_trading_summary` — overall performance metrics
+  - `analyze_trade` — deep analysis combining trade + pattern + user history
+- **Adaptive system prompt** adjusts language complexity based on user's experience level (beginner/intermediate/advanced)
+- Chat history persisted per user in localStorage
+
+### Retrospective Analysis
+- Standalone retrospective service assembles full context (trade + pattern + user reflection + historical stats) and sends to Ollama for analysis
+- Pattern insight generation for quick explanations of what a pattern means
+
+### Dashboard & Analytics
+- Summary stats: total trades, win rate, total P&L, average P&L
+- Performance analytics: holding duration, direction bias (BUY vs SELL), product type breakdown, top 10 symbols by trade count
+- P&L trend chart (area chart via Recharts)
+- Broker-wise performance split (pie chart)
 - Trade calendar with daily P&L heatmap
+- Trade detail modal with reflection fields
 
-### 🤖 AI Trade Retrospection
-- Chat with AI about your trades using natural language
-- Get honest feedback on every trade
-- Understand behavioral patterns and deviations
-- Zero predictions — pure learning
+### Frontend Pages
+| Page | What it does |
+|------|-------------|
+| Landing | Marketing page with feature overview, comparison table, FAQ |
+| Login/Register | Auth with JWT |
+| Dashboard | Summary cards, P&L charts, trade calendar, broker status |
+| Trades | Trade list with filtering, trade detail modal, CSV upload |
+| Chat | Chat interface with preset prompts, markdown rendering, per-user history |
+| Brokers | Broker connection management, sync triggers |
+| BrokerConnect | OAuth/API key flow for connecting a broker |
+| Settings | Experience level, currency preference |
 
-### 🎯 Automatic Pattern Detection
-9 ML-identified market patterns applied to your trades:
-
-| Pattern | Description |
-|---------|-------------|
-| Range-Bound | Low volatility, sideways movement |
-| Volatility Expansion | Sudden increase in price swings |
-| Trending Up | Sustained bullish momentum |
-| Trending Down | Sustained bearish momentum |
-| Whipsaw | Rapid reversals, choppy action |
-| Compression | Narrowing range before breakout |
-| Blow-Off | Extreme move with exhaustion |
-| Mean Reversion | Price returning to average |
-| Illiquid | Low volume, erratic movement |
-
-### 🔄 Broker Integration
-- **Dhan** — OAuth-based auto-sync
-- **Angel One** — API key-based sync
-- Scheduled daily sync at 6 PM IST (via cron)
-- Manual CSV upload for historical data
-- Automatic trade deduplication
-
-### 🔒 Security
-- JWT authentication with secure token handling
-- Helmet.js security headers
-- Rate limiting (general + auth-specific)
-- NoSQL injection prevention
-- Password strength validation
-- Encrypted broker credentials
+### Security
+- Helmet.js for security headers (CSP, CORS policy)
+- Rate limiting: 100 req/15min general, 10 req/15min for auth endpoints
+- Custom NoSQL injection prevention middleware
+- Password strength validation middleware
+- JWT authentication
+- Non-root Docker user in Dockerfile
 
 ---
 
-## 🏗️ Tech Stack
+## Tech Stack
 
 ### Frontend
-| Technology | Purpose |
-|-----------|---------|
-| React 19 | UI framework |
-| Vite (Rolldown) | Build tool |
-| Framer Motion | Animations |
-| GSAP | Advanced animations |
-| Recharts | Data visualization |
-| React Router 7 | Routing |
-| Axios | HTTP client |
+| Tech | Version | Use |
+|------|---------|-----|
+| React | 19 | UI |
+| Vite (Rolldown) | 7.2.5 | Build tool |
+| Framer Motion | 12.x | Page transitions & animations |
+| GSAP | 3.x | Landing page animations |
+| Recharts | 3.x | Charts (area, pie) |
+| React Router | 7.x | Routing |
+| React Markdown | 10.x | Rendering AI responses |
+| Axios | 1.x | HTTP client |
 
 ### Backend
-| Technology | Purpose |
-|-----------|---------|
-| Node.js + Express 5 | API server |
-| MongoDB + Mongoose 9 | Database |
-| JWT | Authentication |
-| Helmet + Rate Limiting | Security |
-| Node-Cron | Scheduled syncs |
-| Multer | File uploads (CSV) |
+| Tech | Version | Use |
+|------|---------|-----|
+| Node.js + Express | 5.x | API server |
+| MongoDB + Mongoose | 9.x | Database |
+| Ollama | local | LLM inference (qwen2.5:3b default) |
+| node-cron | 4.x | Scheduled broker sync |
+| Multer | 2.x | CSV file upload |
+| bcrypt | 6.x | Password hashing |
+| jsonwebtoken | 9.x | Auth tokens |
+| Helmet | 8.x | Security headers |
+| express-rate-limit | 8.x | Rate limiting |
 
-### ML / AI
-| Technology | Purpose |
-|-----------|---------|
-| Python + Scikit-learn | Pattern clustering (K-Means) |
-| OpenAI API | AI chat & trade analysis |
-| MCP (Model Context Protocol) | Structured AI tool integration |
-
-### DevOps
-| Technology | Purpose |
-|-----------|---------|
-| Docker | Containerization |
-| AWS EC2 | Backend hosting |
-| AWS S3 + CloudFront | Frontend hosting |
-| MongoDB Atlas | Cloud database |
+### ML Pipeline
+| Tech | Use |
+|------|-----|
+| Python + scikit-learn | K-Means clustering |
+| NumPy | Centroid storage |
+| Pandas | Feature engineering |
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 hindsight/
 ├── backend/
 │   ├── src/
-│   │   ├── brokers/           # Broker integrations (Dhan, Angel One)
-│   │   ├── config/            # Database & environment config
-│   │   ├── constants/         # App constants & enums
+│   │   ├── brokers/           # Dhan & Angel One integrations
+│   │   │   ├── dhan/          # OAuth flow, API calls, trade mapping
+│   │   │   ├── angelone/      # API key auth, trade mapping
+│   │   │   ├── basebroker.adapter.js
+│   │   │   └── brokerRegistry.js
+│   │   ├── config/            # MongoDB connection, env config
+│   │   ├── constants/         # Messages, roles, trade types
 │   │   ├── controllers/       # Route handlers
-│   │   ├── mcp/               # Model Context Protocol (AI tools)
-│   │   ├── middleware/        # Auth, security, logging
-│   │   ├── models/            # Mongoose schemas
-│   │   ├── routes/            # Express routes
+│   │   ├── mcp/               # Model Context Protocol tools
+│   │   ├── middleware/        # Auth, security, password validation
+│   │   ├── models/            # User, Trade, Pattern, Position, etc.
+│   │   ├── routes/            # Express route definitions
 │   │   ├── services/          # Business logic
-│   │   ├── utils/             # Helpers (JWT, password, formatting)
-│   │   ├── app.js             # Express app setup
-│   │   └── server.js          # Server entry point
-│   ├── ml/                    # Python ML pipeline
-│   │   ├── artifacts/         # Trained model artifacts
+│   │   │   ├── ollama.service.js         # Local LLM interface
+│   │   │   ├── chat.service.js           # Tool-calling orchestrator
+│   │   │   ├── retrospective.service.js  # Trade analysis context builder
+│   │   │   ├── patternMatch.service.js   # ML pattern matching
+│   │   │   ├── patternAssignment.service.js
+│   │   │   ├── trade.service.js          # Trade CRUD
+│   │   │   ├── position.service.js       # Position & P&L tracking
+│   │   │   ├── analysis.service.js       # Dashboard analytics
+│   │   │   ├── cron.service.js           # Scheduled sync
+│   │   │   ├── csvParser.service.js      # CSV import
+│   │   │   └── auth.service.js
+│   │   └── utils/             # JWT, password hashing, formatters
+│   ├── ml/
+│   │   ├── artifacts/         # Trained model outputs
 │   │   ├── feature_engineering.py
 │   │   └── pattern_learning.py
-│   ├── scripts/               # Utility scripts
-│   ├── Dockerfile
+│   ├── scripts/               # Migration & utility scripts
 │   └── package.json
 ├── frontend/
 │   ├── src/
-│   │   ├── components/        # Reusable UI components
-│   │   ├── context/           # React context (Auth)
-│   │   ├── pages/             # Page components
-│   │   ├── services/          # API client
-│   │   ├── App.jsx
-│   │   └── main.jsx
-│   ├── public/                # Static assets
+│   │   ├── components/        # Sidebar, TradeCalendar, TradeDetailModal, etc.
+│   │   ├── context/           # AuthContext
+│   │   ├── pages/             # Dashboard, Trades, Chat, Brokers, Settings, etc.
+│   │   └── services/          # API client (Axios instance)
 │   └── package.json
-├── deploy/
-│   └── aws-guide.md           # AWS deployment guide
-├── .gitignore
 └── README.md
 ```
 
 ---
 
-## ⚡ Quick Start
+## Getting Started
 
 ### Prerequisites
 - **Node.js** 20+
-- **MongoDB** (local or [Atlas](https://www.mongodb.com/cloud/atlas) free tier)
-- **Python** 3.9+ (for ML pipeline, optional)
+- **MongoDB** (local or [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) free tier)
+- **Ollama** installed and running ([ollama.com](https://ollama.com))
+- **Python** 3.9+ (only if you want to retrain the ML pipeline)
 
-### 1. Clone the repository
+### 1. Clone
 
 ```bash
 git clone https://github.com/yogendhra9/trade_journal1.git
 cd trade_journal1
 ```
 
-### 2. Setup Backend
+### 2. Pull the LLM model
+
+```bash
+ollama pull qwen2.5:3b
+```
+
+### 3. Backend
 
 ```bash
 cd backend
 npm install
-
-# Create environment file
 cp .env.example .env
-# Edit .env with your credentials (MongoDB URI, JWT secret, broker keys, etc.)
-
-# Start the server
+# Edit .env with your MongoDB URI, JWT secret, and broker API keys
 node src/server.js
 ```
 
-The backend runs on `http://localhost:5000`
+Runs on `http://localhost:5000`
 
-### 3. Setup Frontend
+### 4. Frontend
 
 ```bash
 cd frontend
 npm install
-
-# Start dev server
 npm run dev
 ```
 
-The frontend runs on `http://localhost:5173`
+Runs on `http://localhost:5173`
 
-### 4. Run ML Pipeline (Optional)
+### 5. ML Pipeline (optional — artifacts are pre-included)
 
 ```bash
 cd backend/ml
@@ -213,103 +240,76 @@ pip install -r requirements.txt
 python pattern_learning.py
 ```
 
-This trains the pattern detection model on historical market data.
-
 ---
 
-## ⚙️ Environment Variables
+## Environment Variables
 
-Create a `.env` file in the `backend/` directory:
+Create `backend/.env`:
 
 ```env
-# Server
 PORT=5000
 NODE_ENV=development
-
-# Database
 MONGO_URI=mongodb+srv://user:pass@cluster.mongodb.net/hindsight
 
-# Auth
-JWT_SECRET=your-super-secret-jwt-key-minimum-32-characters
+JWT_SECRET=your-secret-key-minimum-32-characters
 
-# Frontend URL (CORS)
 FRONTEND_URL=http://localhost:5173
 
-# Broker APIs
+# Ollama (local LLM)
+OLLAMA_URL=http://localhost:11434
+OLLAMA_MODEL=qwen2.5:3b
+
+# Dhan broker
 DHAN_CLIENT_ID=your_dhan_client_id
 DHAN_CLIENT_SECRET=your_dhan_client_secret
 DHAN_REDIRECT_URI=http://localhost:5173/broker/dhan/callback
 
+# Angel One broker
 ANGEL_ONE_API_KEY=your_angel_one_api_key
 ANGEL_ONE_CLIENT_ID=your_angel_one_client_id
-
-# AI
-OPENAI_API_KEY=your_openai_api_key
 ```
 
 ---
 
-## 🐳 Docker
-
-```bash
-cd backend
-
-# Build
-docker build -t hindsight-backend .
-
-# Run
-docker run -d -p 5000:5000 --env-file .env --name hindsight hindsight-backend
-```
-
----
-
-## 🌐 Deployment
-
-See the full [AWS Deployment Guide](deploy/aws-guide.md) for step-by-step instructions on deploying to:
-- **Backend** → AWS EC2 with Docker
-- **Frontend** → AWS S3 + CloudFront
-- **Database** → MongoDB Atlas
-
-Estimated monthly cost: **$0–12/mo** (with free tier)
-
----
-
-## 📄 API Routes
+## API Endpoints
 
 | Method | Endpoint | Description |
 |--------|----------|-------------|
-| POST | `/auth/register` | Register new user |
+| POST | `/auth/register` | Register |
 | POST | `/auth/login` | Login |
 | GET | `/trades` | Get user trades |
-| POST | `/trades/upload` | Upload CSV trades |
+| POST | `/trades/upload` | Upload CSV |
 | GET | `/broker/dhan/status` | Dhan connection status |
 | GET | `/broker/angelone/status` | Angel One connection status |
-| POST | `/broker/dhan/sync` | Sync trades from Dhan |
-| POST | `/broker/angelone/sync` | Sync trades from Angel One |
+| POST | `/broker/dhan/sync` | Sync from Dhan |
+| POST | `/broker/angelone/sync` | Sync from Angel One |
 | GET | `/analysis/dashboard` | Dashboard analytics |
-| POST | `/chat` | AI chat with trade context |
-| GET | `/patterns` | Get pattern definitions |
-| GET | `/retrospective` | Get trade retrospectives |
+| POST | `/chat` | Chat with local LLM |
+| GET | `/patterns` | Pattern definitions |
+| GET | `/retrospective/:tradeId` | Trade retrospective analysis |
 | GET | `/health` | Health check |
 
 ---
 
-## 🤝 Contributing
+## Why Local LLM?
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+Trading data is sensitive — positions, P&L, strategies, behavioral patterns. Sending this to an external API (OpenAI, etc.) means your data hits third-party servers. With Ollama running locally:
+
+- **Your data never leaves your machine**
+- No API costs
+- Works offline
+- Full control over the model
+
+The tradeoff is that local models (qwen2.5:3b) are less capable than GPT-4, but for retrospective trade analysis with structured tool outputs, they work well enough.
 
 ---
 
-## 📜 License
+## License
 
-This project is licensed under the ISC License.
+ISC
 
 ---
 
 <p align="center">
-  Built with ❤️ for Indian traders who want to learn, not gamble.
+  Built for Indian traders who want to learn from every trade.
 </p>
