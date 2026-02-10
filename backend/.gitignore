@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Large data files
+*.csv
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# Python / ML
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+
+# Misc
+*.local
+.cache/

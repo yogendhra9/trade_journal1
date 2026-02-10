@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "trading-journal": {
+      "command": "node",
+      "args": ["src/mcp/server.js"],
+      "cwd": "c:/Users/yogen/OneDrive/Desktop/career/tradej1/backend",
+      "env": {
+        "MONGO_URI": "${MONGO_URI}"
+      }
+    }
+  }
+}

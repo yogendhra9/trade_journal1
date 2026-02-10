@@ -1,0 +1,282 @@
+{
+  "P7": {
+    "name": "Exhaustion / Blow-Off",
+    "description": "Sharp price movement with extreme volume",
+    "characteristics": [
+      "Sharp price move",
+      "Extremely high volume",
+      "Often followed by reversal"
+    ],
+    "risks": [
+      "Late entries suffer",
+      "Sharp reversal risk"
+    ],
+    "clusterId": 0,
+    "centroid": [
+      -0.053142839163414037,
+      -0.1676761221588946,
+      -0.1937021671356346,
+      0.04485767307139307,
+      0.02203859891497231,
+      0.4396693945646662,
+      0.7181963403794139,
+      0.4948960338663463,
+      1.297642438917061,
+      0.2562129297220946,
+      0.19895621415632922
+    ],
+    "stats": {
+      "sampleCount": 454980,
+      "percentage": 11.25
+    }
+  },
+  "P6": {
+    "name": "Volatility Compression",
+    "description": "Decreasing volatility, pre-breakout coiling",
+    "characteristics": [
+      "Decreasing volatility",
+      "Tightening price range",
+      "Declining volume"
+    ],
+    "risks": [
+      "Premature entries fail",
+      "Risk-reward asymmetric"
+    ],
+    "clusterId": 1,
+    "centroid": [
+      -0.25595809308956735,
+      -0.28702890253944896,
+      -0.2701318670085325,
+      -0.02558091293834352,
+      -0.027016369107269456,
+      0.2552417343684812,
+      -0.10170664008794911,
+      -0.1602562589605789,
+      -0.156640641260844,
+      -0.011460117800473067,
+      -0.08007676286253805
+    ],
+    "stats": {
+      "sampleCount": 890217,
+      "percentage": 22.0
+    }
+  },
+  "P5": {
+    "name": "High Volatility Whipsaw",
+    "description": "Very high volatility with frequent direction changes",
+    "characteristics": [
+      "Extreme volatility",
+      "Large intraday ranges",
+      "Volume spikes without follow-through"
+    ],
+    "risks": [
+      "Stop losses hit frequently",
+      "Emotional trading leads to losses"
+    ],
+    "clusterId": 2,
+    "centroid": [
+      0.4669802079663994,
+      0.557762587915842,
+      0.6012395190434895,
+      -0.06541878106932048,
+      -0.061910876134722244,
+      -1.1602723969337434,
+      -0.38289051861446766,
+      -0.3558129204903408,
+      -0.45375906931852766,
+      -0.4439516096330641,
+      -0.5852771984993461
+    ],
+    "stats": {
+      "sampleCount": 382760,
+      "percentage": 9.46
+    }
+  },
+  "P3": {
+    "name": "Trending Up",
+    "description": "Positive trend with stable momentum",
+    "characteristics": [
+      "Positive trend slope",
+      "Moderate volatility",
+      "Healthy volume participation"
+    ],
+    "risks": [
+      "Counter-trend trades suffer",
+      "Late entries may face pullbacks"
+    ],
+    "clusterId": 3,
+    "centroid": [
+      0.30220078338860695,
+      0.1339518334446886,
+      0.02862389143136597,
+      0.07177364981519482,
+      0.019908693503591677,
+      0.4938629633772601,
+      3.386629300721339,
+      3.487134854764846,
+      1.4802894135331182,
+      0.7967815134494071,
+      0.589630014427966
+    ],
+    "stats": {
+      "sampleCount": 148509,
+      "percentage": 3.67
+    }
+  },
+  "P2": {
+    "name": "Volatility Expansion",
+    "description": "Sudden increase in volatility, transition regime",
+    "characteristics": [
+      "Sharp volatility increase",
+      "Volume spikes",
+      "No clear directional trend yet"
+    ],
+    "risks": [
+      "Risk increases sharply",
+      "Poor position sizing leads to drawdowns"
+    ],
+    "clusterId": 4,
+    "centroid": [
+      0.6397206728343029,
+      0.6107446351870672,
+      0.5213184784736067,
+      0.3698327910093771,
+      0.24304232494024353,
+      0.6598416713194403,
+      0.0602579812501603,
+      0.2207754338085582,
+      0.03164489976662581,
+      1.6265174020847493,
+      1.6347740700520528
+    ],
+    "stats": {
+      "sampleCount": 285779,
+      "percentage": 7.06
+    }
+  },
+  "P4": {
+    "name": "Trending Down",
+    "description": "Negative trend with controlled volatility",
+    "characteristics": [
+      "Negative trend slope",
+      "Consistent lower highs/lows",
+      "Sustained selling pressure"
+    ],
+    "risks": [
+      "Long trades face headwinds",
+      "Risk management critical"
+    ],
+    "clusterId": 5,
+    "centroid": [
+      1.2128299427300535,
+      1.4487140689587599,
+      1.5775600504347944,
+      -0.49800290190457924,
+      -0.49598016837647413,
+      -3.2158411440161108,
+      0.04271925174563158,
+      0.028263918914520486,
+      -0.05143005719220808,
+      -1.8420480340373941,
+      -2.2443113645793145
+    ],
+    "stats": {
+      "sampleCount": 108737,
+      "percentage": 2.69
+    }
+  },
+  "P9": {
+    "name": "Illiquid / Thin Participation",
+    "description": "Low volume with irregular price jumps",
+    "characteristics": [
+      "Low volume",
+      "Irregular price movements",
+      "Large bid-ask impact"
+    ],
+    "risks": [
+      "Slippage dominates",
+      "Position sizing errors amplified"
+    ],
+    "clusterId": 6,
+    "centroid": [
+      0.09790628234770132,
+      0.3240173279901511,
+      0.23893607356688262,
+      0.06234596163505722,
+      0.15063759529597132,
+      0.2791643326015764,
+      -0.6059673050580688,
+      -0.44111910823712447,
+      -0.46164508841779156,
+      -0.12418195586616056,
+      0.6300589494429677
+    ],
+    "stats": {
+      "sampleCount": 411627,
+      "percentage": 10.17
+    }
+  },
+  "P8": {
+    "name": "Mean-Reversion Dominant",
+    "description": "Price oscillates around mean, extremes fade",
+    "characteristics": [
+      "Price reverts after extremes",
+      "Moderate symmetric volatility",
+      "Stable volume"
+    ],
+    "risks": [
+      "Trend-following underperforms",
+      "Patience required"
+    ],
+    "clusterId": 7,
+    "centroid": [
+      -0.22929168962978874,
+      -0.23830703592991198,
+      -0.18550120540264997,
+      -0.18397290654277287,
+      -0.12712464478486746,
+      -0.5505107484426558,
+      -0.2848924149382801,
+      -0.3112767188753064,
+      0.021829697093337822,
+      -0.6641811902228139,
+      -0.6768331990578289
+    ],
+    "stats": {
+      "sampleCount": 656491,
+      "percentage": 16.23
+    }
+  },
+  "P1": {
+    "name": "Low Volatility Range-Bound",
+    "description": "Flat trend, low volatility, narrow price range",
+    "characteristics": [
+      "Low realized volatility",
+      "Near-zero trend slope",
+      "Declining or stable volume"
+    ],
+    "risks": [
+      "Overtrading",
+      "Noise dominates price",
+      "Breakouts often fail"
+    ],
+    "clusterId": 8,
+    "centroid": [
+      -0.36304094219535327,
+      -0.3697467791658399,
+      -0.38013462759214994,
+      0.09092825506940518,
+      0.08783834582223288,
+      0.6432692734466287,
+      -0.5406707381586735,
+      -0.44536273024764433,
+      -0.609710125619736,
+      0.17576700848182347,
+      0.2106506696255362
+    ],
+    "stats": {
+      "sampleCount": 706735,
+      "percentage": 17.47
+    }
+  }
+}

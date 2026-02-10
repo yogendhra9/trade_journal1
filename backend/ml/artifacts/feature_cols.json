@@ -1,0 +1,13 @@
+[
+  "volatility_5d",
+  "volatility_10d",
+  "volatility_20d",
+  "trend_slope_10d",
+  "trend_slope_20d",
+  "drawdown_20d",
+  "volume_ratio_10d",
+  "volume_ratio_20d",
+  "range_compression_10d",
+  "momentum_5d",
+  "momentum_10d"
+]

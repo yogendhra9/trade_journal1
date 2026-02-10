@@ -1,0 +1,479 @@
+/* Brokers Page Styles */
+.brokers-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #0a0a1a 0%, #0f0f2d 100%);
+  padding: 2rem 4rem;
+  color: #fff;
+}
+
+.brokers-header {
+  margin-bottom: 3rem;
+}
+
+.brokers-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.brokers-header p {
+  color: #64748b;
+}
+
+/* Error Toast */
+.broker-error-toast {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.5rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 10px;
+  color: #f87171;
+  margin-bottom: 1.5rem;
+}
+
+.broker-error-toast button {
+  background: none;
+  border: none;
+  color: #f87171;
+  font-size: 1.25rem;
+  cursor: pointer;
+  padding: 0 0.5rem;
+}
+
+/* Loading */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  gap: 1rem;
+}
+
+.loader {
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(159, 122, 234, 0.2);
+  border-top-color: #9f7aea;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Brokers Grid */
+.brokers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+  gap: 2rem;
+  max-width: 1200px;
+}
+
+/* Broker Card */
+.broker-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 1.75rem;
+  transition: all 0.3s ease;
+}
+
+.broker-card:hover {
+  border-color: rgba(159, 122, 234, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+.broker-card.connected {
+  border-color: rgba(74, 222, 128, 0.3);
+}
+
+.broker-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.broker-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+}
+
+.broker-info h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.status-badge {
+  font-size: 0.8rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-weight: 500;
+}
+
+.status-badge.connected {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+}
+
+.status-badge.disconnected {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+}
+
+.broker-details {
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.4rem 0;
+}
+
+.detail-row:not(:last-child) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.detail-label {
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.detail-value {
+  font-weight: 500;
+  font-size: 0.9rem;
+}
+
+.detail-value.expiry {
+  color: #fbbf24;
+}
+
+.broker-description {
+  color: #94a3b8;
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1.5rem;
+}
+
+.broker-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.broker-actions button {
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+  font-size: 0.9rem;
+}
+
+.btn-connect {
+  background: linear-gradient(135deg, #9f7aea 0%, #7c3aed 100%);
+  color: #fff;
+  flex: 1;
+}
+
+.btn-connect:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(159, 122, 234, 0.4);
+}
+
+.btn-sync {
+  background: rgba(74, 222, 128, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(74, 222, 128, 0.3) !important;
+}
+
+.btn-sync:hover {
+  background: rgba(74, 222, 128, 0.25);
+}
+
+.btn-sync.syncing {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-details {
+  background: rgba(56, 189, 248, 0.15);
+  color: #38bdf8;
+  border: 1px solid rgba(56, 189, 248, 0.3) !important;
+}
+
+.btn-details:hover {
+  background: rgba(56, 189, 248, 0.25);
+}
+
+.btn-disconnect {
+  background: transparent;
+  color: #64748b;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+.btn-disconnect:hover {
+  color: #f87171;
+  border-color: rgba(248, 113, 113, 0.3) !important;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 2rem;
+}
+
+.modal-content {
+  background: #0f0f2d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 500px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 1.75rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.modal-header h2 {
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: #64748b;
+  font-size: 1.75rem;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+}
+
+.close-btn:hover {
+  color: #fff;
+}
+
+.instructions-section {
+  padding: 1.5rem 1.75rem;
+  background: rgba(159, 122, 234, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.instructions-section h4 {
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+
+.instructions-section ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+
+.instructions-section li {
+  color: #94a3b8;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  margin-bottom: 0.4rem;
+}
+
+.error-message {
+  margin: 1rem 1.75rem;
+  padding: 0.75rem 1rem;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 8px;
+  color: #f87171;
+  font-size: 0.9rem;
+}
+
+.modal-content form {
+  padding: 1.5rem 1.75rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  color: #e2e8f0;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.95rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #9f7aea;
+}
+
+.form-group input::placeholder {
+  color: #475569;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, #9f7aea 0%, #7c3aed 100%);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(159, 122, 234, 0.4);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Optional Field Styling */
+.optional-field {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 1rem;
+  border-radius: 10px;
+  margin-top: 1rem;
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+}
+
+.optional-tag {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 400;
+}
+
+.field-hint {
+  display: block;
+  margin-top: 0.5rem;
+  color: #64748b;
+  font-size: 0.8rem;
+}
+
+/* Details Modal */
+.details-modal {
+  max-width: 550px;
+}
+
+.details-content {
+  padding: 1.5rem 1.75rem;
+}
+
+.details-section {
+  margin-bottom: 1.5rem;
+}
+
+.details-section:last-child {
+  margin-bottom: 0;
+}
+
+.details-section h4 {
+  font-size: 0.9rem;
+  color: #94a3b8;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.details-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+}
+
+.details-grid .detail-item {
+  background: rgba(255, 255, 255, 0.03);
+  padding: 1rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.details-grid .label {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+
+.details-grid .value {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.details-grid .value.success {
+  color: #4ade80;
+}
+
+.details-grid .value.error {
+  color: #f87171;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .brokers-page {
+    padding: 1.5rem;
+  }
+  
+  .brokers-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .modal-content {
+    margin: 1rem;
+    max-height: 95vh;
+  }
+  
+  .details-grid {
+    grid-template-columns: 1fr;
+  }
+}
